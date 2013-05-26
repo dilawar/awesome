@@ -463,8 +463,18 @@ clientkeys = awful.util.table.join(
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
             c.maximized_vertical   = not c.maximized_vertical
-        end)
-)
+        end),
+
+        -- more programs 
+        -- MPD and MPC config.
+        awful.key({"Mod1", "Control" }, "n", function () awful.util.spawn("mpc -h 127.0.0.1 next") end),
+        awful.key({"Mod1", "Control" }, "p", function () awful.util.spawn("mpc -h 127.0.0.1 prev") end),
+        awful.key({"Mod1", "Control" }, "t", function () awful.util.spawn("mpc -h 127.0.0.1 toggle") end),
+        awful.key({"Mod1", "Control" }, "m", function () awful.util.spawn("amixer -q sset Master 2dB-") end),
+        awful.key({"Mod1", "Control" }, "l", function () awful.util.spawn("amixer -q sset Master 2dB+") end),
+        awful.key({"Mod1", "Control" }, "d", function () awful.util.spawn_with_shell("~/Scripts/manage_mpc.sh -d") end),
+        awful.key({"Mod1", "Control" }, "a", function () awful.util.spawn_with_shell("~/Scripts/manage_mpc.sh -a") end)
+        )
 
 -- Compute the maximum number of digit we need, limited to 9
 keynumber = 0
