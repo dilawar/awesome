@@ -139,7 +139,7 @@ end
 
 -- cpu text widget
 cpuwidget = widget({ type = "textbox" }) -- initialize
-vicious.register(cpuwidget, vicious.widgets.cpu, cputext_format, 3) -- register
+vicious.register(cpuwidget, vicious.widgets.cpu, cputext_format, 1) -- register
 
 -- temperature
 tzswidget = widget({ type = "textbox" })
@@ -296,7 +296,7 @@ if whereis_app('curl') and whereis_app('mpd') then
 		function (widget, args)
 			if args["{state}"] == "Stop" or args["{state}"] == "Pause" or args["{state}"] == "N/A"
 				or (args["{Artist}"] == "N/A" and args["{Title}"] == "N/A") then return ""
-			else return '<span color="white">музыка:</span> '..
+			else return '<span color="white">Sangeet:</span> '..
 			     args["{Artist}"]..' - '.. args["{Title}"]
 			end
 		end
