@@ -446,7 +446,8 @@ globalkeys = awful.util.table.join(
                   awful.util.eval, nil,
                   awful.util.getdir("cache") .. "/history_eval")
               end),
-    awful.key({ }, "Print", function () awful.util.spawn("scrot -e 'mv $f ~/screenshots/ 2>/dev/null'") end)
+    awful.key({ }, "Print", function () awful.util.spawn("scrot -e 'mv $f /home/dilawar/screenshots/ 2>/dev/null'") end),
+    awful.key({modkey }, "Print", function () awful.util.spawn("/home/dilawar/Scripts/screenshot") end)
 )
 
 clientkeys = awful.util.table.join(
