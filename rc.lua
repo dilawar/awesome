@@ -468,7 +468,7 @@ clientkeys = awful.util.table.join(
         end),
 
         -- more programs 
-        awful.key({"Mod1", "Control" }, "t", function () awful.util.spawn("xterm") end),
+        awful.key({"Mod1", "Shift" }, "t", function () awful.util.spawn("xterm") end),
         -- MPD and MPC config.
         awful.key({"Mod1", "Control" }, "n", function () awful.util.spawn("mpc -h 127.0.0.1 next") end),
         awful.key({"Mod1", "Control" }, "p", function () awful.util.spawn("mpc -h 127.0.0.1 prev") end),
