@@ -1,4 +1,4 @@
-terminal = 'urxvt' -- can be app in path, or full path e.g. /usr/bin/xterm
+terminal = 'gnome-terminal' -- can be app in path, or full path e.g. /usr/bin/xterm
 editor = "vim"
 
 taglist_numbers = "arabic" -- we support arabic (1,2,3...),
