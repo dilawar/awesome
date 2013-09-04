@@ -478,7 +478,7 @@ clientkeys = awful.util.table.join(
         awful.key({"Mod1", "Control" }, "d", function () awful.util.spawn_with_shell("~/Scripts/manage_mpc.sh -d") end),
         awful.key({"Mod1", "Control" }, "a", function () awful.util.spawn_with_shell("~/Scripts/manage_mpc.sh -a") end),
 	-- locking 
-	awful.key({modkey, "Control" }, "l", function () awful.util.spawn("xlock") end)
+	awful.key({modkey }, "F12", function () awful.util.spawn("xlock") end)
         )
 
 -- Compute the maximum number of digit we need, limited to 9
