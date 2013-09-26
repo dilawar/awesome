@@ -420,6 +420,7 @@ globalkeys = awful.util.table.join(
 
     -- Standard program
     awful.key({ modkey, "Shift"   }, "Return", function () awful.util.spawn(terminal) end),
+    awful.key({ "Control", "Shift"   }, "t", function () awful.util.spawn(terminal) end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
