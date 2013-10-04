@@ -618,6 +618,8 @@ mytimer:add_signal("timeout", function()
   mytimer:start()
 end)
 
+-- Autolaunch
+awful.util.spawn_with_shell("gnome-panel")
 -- initial start when rc.lua is first run
 mytimer:start()
 
