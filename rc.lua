@@ -620,6 +620,7 @@ end)
 
 -- Autolaunch
 awful.util.spawn_with_shell("gnome-panel")
+awful.util.spawn_with_shell('xautolock -time 10 -locker "i3lock"')
 -- initial start when rc.lua is first run
 mytimer:start()
 
