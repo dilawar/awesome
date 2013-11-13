@@ -141,6 +141,15 @@ end
 cpuwidget = widget({ type = "textbox" }) -- initialize
 vicious.register(cpuwidget, vicious.widgets.cpu, cputext_format, 1) -- register
 
+mailWidget = widget({ type = "textbox" })
+mailWidget.text = "Init"
+mailWidgetTimer = timer({ timeout = 300 })
+mailWidgetTimer:add_signal("timeout", function()
+    mailwidget.text = awful.util.pread("~/Scripts/check_multiple_imap.py")
+end)
+mailWidgetTimer:start()
+
+
 -- temperature
 tzswidget = widget({ type = "textbox" })
 vicious.register(tzswidget, vicious.widgets.thermal,
@@ -621,7 +630,6 @@ end)
 -- Autolaunch
 awful.util.spawn_with_shell("gnome-panel")
 awful.util.spawn_with_shell('xautolock -time 10 -locker "i3lock"')
--- initial start when rc.lua is first run
-mytimer:start()
 
+mytimer:start()
 require_safe('autorun')
