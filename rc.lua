@@ -628,8 +628,6 @@ mytimer:add_signal("timeout", function()
 end)
 
 -- Autolaunch
-awful.util.spawn_with_shell("gnome-panel")
-awful.util.spawn_with_shell('xautolock -time 10 -locker "i3lock"')
-
+awful.util.spawn_with_shell('xautolock -time 5 -locker "i3lock"')
 mytimer:start()
 require_safe('autorun')
