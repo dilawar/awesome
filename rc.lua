@@ -631,7 +631,16 @@ mytimer:add_signal("timeout", function()
 end)
 
 -- Autolaunch
-awful.util.spawn_with_shell('xautolock -time 5 -locker "i3lock"')
-awful.util.spawn_with_shell('nm-applet')
+function run_once(cmd)
+  findme = cmd
+  firstspace = cmd:find(" ")
+  if firstspace then
+    findme = cmd:sub(0, firstspace-1)
+  end
+  awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
+end
+
+run_once('xautolock -time 5 -locker "i3lock"')
+run_once('nm-applet')
 mytimer:start()
 require_safe('autorun')
