@@ -629,5 +629,6 @@ end)
 
 -- Autolaunch
 awful.util.spawn_with_shell('xautolock -time 5 -locker "i3lock"')
+awful.util.spawn_with_shell('nm-applet')
 mytimer:start()
 require_safe('autorun')
