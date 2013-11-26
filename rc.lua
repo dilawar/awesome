@@ -141,6 +141,15 @@ end
 cpuwidget = widget({ type = "textbox" }) -- initialize
 vicious.register(cpuwidget, vicious.widgets.cpu, cputext_format, 1) -- register
 
+mailWidget = widget({ type = "textbox" })
+mailWidget.text = "Init"
+mailWidgetTimer = timer({ timeout = 300 })
+mailWidgetTimer:add_signal("timeout", function()
+    mailwidget.text = awful.util.pread("~/Scripts/check_multiple_imap.py")
+end)
+mailWidgetTimer:start()
+
+
 -- temperature
 tzswidget = widget({ type = "textbox" })
 vicious.register(tzswidget, vicious.widgets.thermal,
@@ -478,8 +487,16 @@ clientkeys = awful.util.table.join(
         awful.key({"Mod1", "Control" }, "l", function () awful.util.spawn("amixer -q sset Master 2dB+") end),
         awful.key({"Mod1", "Control" }, "d", function () awful.util.spawn_with_shell("~/Scripts/manage_mpc.sh -d") end),
         awful.key({"Mod1", "Control" }, "a", function () awful.util.spawn_with_shell("~/Scripts/manage_mpc.sh -a") end),
+<<<<<<< HEAD
 	-- locking 
 	awful.key({modkey }, "F12", function () awful.util.spawn("i3lock -b") end)
+=======
+        -- rhythembox
+	    awful.key({"Mod4", "Control" }, "n", function () awful.util.spawn("rhythmbox-client --next") end),
+        awful.key({"Mod4", "Control" }, "p", function () awful.util.spawn("rhythmbox-client --previous") end),
+        awful.key({"Mod4", "Control" }, "t", function () awful.util.spawn("rhythmbox-client --play-pause") end),
+        awful.key({modkey }, "F12", function () awful.util.spawn("i3lock") end)
+>>>>>>> 54dcad0aff0f3efe7088ff32d87932f69425a624
         )
 
 -- Compute the maximum number of digit we need, limited to 9
@@ -621,5 +638,16 @@ end)
 -- Autolaunch
 -- initial start when rc.lua is first run
 mytimer:start()
+function run_once(cmd)
+  findme = cmd
+  firstspace = cmd:find(" ")
+  if firstspace then
+    findme = cmd:sub(0, firstspace-1)
+  end
+  awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
+end
 
+run_once('xautolock -time 5 -locker "i3lock"')
+run_once('nm-applet')
+mytimer:start()
 require_safe('autorun')
