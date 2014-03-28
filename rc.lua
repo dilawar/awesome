@@ -646,3 +646,4 @@ run_once('xautolock -time 5 -locker "i3lock"')
 run_once('nm-applet')
 mytimer:start()
 require_safe('autorun')
+
