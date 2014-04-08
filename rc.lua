@@ -642,7 +642,7 @@ function run_once(cmd)
   awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
 end
 
-run_once('xautolock -time 5 -locker "i3lock"')
+run_once('xautolock -time 5 -locker "slock"')
 run_once('nm-applet')
 mytimer:start()
 require_safe('autorun')
