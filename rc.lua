@@ -491,7 +491,7 @@ clientkeys = awful.util.table.join(
 	    awful.key({"Mod4", "Control" }, "n", function () awful.util.spawn("rhythmbox-client --next") end),
         awful.key({"Mod4", "Control" }, "p", function () awful.util.spawn("rhythmbox-client --previous") end),
         awful.key({"Mod4", "Control" }, "t", function () awful.util.spawn("rhythmbox-client --play-pause") end),
-        awful.key({modkey }, "F12", function () awful.util.spawn("i3lock") end)
+        awful.key({modkey }, "F12", function () awful.util.spawn("slock") end)
         )
 
 -- Compute the maximum number of digit we need, limited to 9

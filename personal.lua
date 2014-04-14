@@ -1,4 +1,4 @@
-terminal = 'xterm -bg black -fg white' -- can be app in path, or full path e.g. /usr/bin/xterm
+terminal = 'rxvt -bg black -fg white' -- can be app in path, or full path e.g. /usr/bin/xterm
 editor = "vim"
 
 taglist_numbers = "arabic" -- we support arabic (1,2,3...),
@@ -12,4 +12,4 @@ memtext_format = " $1%" -- %1 percentage, %2 used %3 total %4 free
 
 date_format = "%a %m/%d/%Y %l:%M%p" -- refer to http://en.wikipedia.org/wiki/Date_(Unix) specifiers
 
-networks = {'enp6s4', 'wlan0'} -- Add your devices network interface here netwidget, only show one that works
+networks = {'eth1', 'wlan0'} -- Add your devices network interface here netwidget, only show one that works
