@@ -14,6 +14,7 @@ require("awful")
 require("awful.rules")
 require("awful.autofocus")
 require("naughty")
+require("conky")
 -- User libraries
 require("vicious") -- ./vicious
 require("helpers") -- helpers.lua
@@ -491,7 +492,8 @@ clientkeys = awful.util.table.join(
 	    awful.key({"Mod4", "Control" }, "n", function () awful.util.spawn("rhythmbox-client --next") end),
         awful.key({"Mod4", "Control" }, "p", function () awful.util.spawn("rhythmbox-client --previous") end),
         awful.key({"Mod4", "Control" }, "t", function () awful.util.spawn("rhythmbox-client --play-pause") end),
-        awful.key({modkey }, "F12", function () awful.util.spawn("slock") end)
+        --aweful.key({}, "F10", raise_conky, lower_conky),
+        --awful.key({modkey }, "F12", function () awful.util.spawn("slock") end)
         )
 
 -- Compute the maximum number of digit we need, limited to 9
@@ -551,8 +553,19 @@ awful.rules.rules = {
       border_width = beautiful.border_width,
       border_color = beautiful.border_normal }
     },
+
     { rule = { class = "ROX-Filer" },   properties = { floating = true } },
+
+    { rule = { class = "Conky" },
+        properties = {
+        floating = true,
+        sticky = true,
+        ontop = false,
+        focusable = false,
+        size_hints = {"program_position", "program_size"}
+    } }
 }
+
 -- }}}
 
 
