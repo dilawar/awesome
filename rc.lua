@@ -14,7 +14,7 @@ require("awful")
 require("awful.rules")
 require("awful.autofocus")
 require("naughty")
-require("conky")
+
 -- User libraries
 require("vicious") -- ./vicious
 require("helpers") -- helpers.lua
