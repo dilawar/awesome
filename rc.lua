@@ -655,7 +655,7 @@ function run_once(cmd)
 end
 
 run_once('xautolock -time 5 -locker "slock"')
-run_once('nm-applet')
+run_once('gnome-panel')
 mytimer:start()
 require_safe('autorun')
 
