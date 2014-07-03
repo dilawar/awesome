@@ -459,7 +459,6 @@ end)
 
 -- Autolaunch
 -- initial start when rc.lua is first run
-mytimer:start()
 function run_once(cmd)
   findme = cmd
   firstspace = cmd:find(" ")
@@ -471,8 +470,6 @@ end
 
 run_once('xautolock -time 5 -locker "slock"')
 run_once('gnome-panel')
-mytimer:start()
-require_safe('autorun')
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
