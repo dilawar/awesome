@@ -469,7 +469,7 @@ function run_once(cmd)
 end
 
 run_once('xautolock -time 5 -locker "slock"')
-run_once('gnome-panel')
+run_once('xfce4-panel')
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
