@@ -1,4 +1,5 @@
 terminal = 'rxvt -bg black -fg white' -- can be app in path, or full path e.g. /usr/bin/xterm
+terminal = 'gnome-terminal'
 editor = "vim"
 
 taglist_numbers = "arabic" -- we support arabic (1,2,3...),
