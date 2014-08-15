@@ -1,8 +1,9 @@
 terminal = 'rxvt -bg black -fg white' -- can be app in path, or full path e.g. /usr/bin/xterm
 terminal = 'gnome-terminal'
+terminal = 'xfce4-terminal'
 editor = "vim"
 
-taglist_numbers = "arabic" -- we support arabic (1,2,3...),
+taglist_numbers = "devanagiri" -- we support arabic (1,2,3...),
 -- arabic, chinese, {east|persian}_arabic, roman, thai, random
 
 cpugraph_enable = true -- show CPU graph
