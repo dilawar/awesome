@@ -494,7 +494,7 @@ clientkeys = awful.util.table.join(
 	    awful.key({"Mod4", "Control" }, "n", function () awful.util.spawn("rhythmbox-client --next") end),
         awful.key({"Mod4", "Control" }, "p", function () awful.util.spawn("rhythmbox-client --previous") end),
         awful.key({"Mod4", "Control" }, "t", function () awful.util.spawn("rhythmbox-client --play-pause") end),
-        awful.key({modkey }, "F12", function () awful.util.spawn("i3lock") end)
+        awful.key({modkey }, "F12", function () awful.util.spawn("slock") end)
         )
 
 -- Compute the maximum number of digit we need, limited to 9
@@ -657,8 +657,9 @@ function run_once(cmd)
   awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
 end
 
-run_once('xautolock -time 5 -locker "i3lock -d -c 000070" -notify 30')
+run_once('xautolock -time 5 -locker "slock" -notify 30')
 run_once('nm-applet')
+run_once('./ibus.sh')
 mytimer:start()
 require_safe('autorun')
 
