@@ -659,7 +659,8 @@ end
 
 run_once('xautolock -time 5 -locker "slock" -notify 30')
 run_once('nm-applet')
+run_once('pidgin')
+run_once('xscreensaver')
 run_once('./ibus.sh')
 mytimer:start()
 require_safe('autorun')
-
