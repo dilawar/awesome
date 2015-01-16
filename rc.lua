@@ -152,6 +152,13 @@ end)
 mailWidgetTimer:start()
 
 
+-- user function
+function wrapped_kill(client)
+    if client.class ~= 'Plasma' then
+        client:kill()
+    end
+end
+
 -- temperature
 tzswidget = widget({ type = "textbox" })
 vicious.register(tzswidget, vicious.widgets.thermal,
@@ -465,7 +472,7 @@ globalkeys = awful.util.table.join(
 
 clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
-    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
+    awful.key({ modkey, "Shift"   }, "c",   wrapped_kill ),
     awful.key({ modkey,           }, "t",  awful.client.floating.toggle                     ),
     awful.key({ modkey, "Shift" }, "t", function (c)
         if   c.titlebar then awful.titlebar.remove(c)
@@ -554,6 +561,8 @@ awful.rules.rules = {
       focus = true,      size_hints_honor = false,
       keys = clientkeys, buttons = clientbuttons,
       border_width = beautiful.border_width,
+      maximized_vertical = false,
+      maximized_horizontal = false,
       border_color = beautiful.border_normal }
     },
 
