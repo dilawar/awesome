@@ -482,6 +482,8 @@ clientkeys = awful.util.table.join(
 
         -- more programs 
         awful.key({"Control", "Shift" }, "t", function () awful.util.spawn("xterm") end),
+        -- tomboy
+        awful.key({"Mod1", }, "n" , function () awful.util.spawn("tomboy --new-note") end),
         -- MPD and MPC config.
         awful.key({"Mod1", "Control" }, "n", function () awful.util.spawn("mpc -h 127.0.0.1 next") end),
         awful.key({"Mod1", "Control" }, "p", function () awful.util.spawn("mpc -h 127.0.0.1 prev") end),
@@ -657,10 +659,10 @@ function run_once(cmd)
   awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
 end
 
-run_once('xautolock -time 5 -locker "slock" -notify 30')
+run_once('xautolock -time 20 -locker "slock" -notify 30')
 run_once('nm-applet')
 run_once('pidgin')
-run_once('xscreensaver')
+
 run_once('./ibus.sh')
 mytimer:start()
 require_safe('autorun')
