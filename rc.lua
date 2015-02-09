@@ -668,6 +668,17 @@ function run_once(cmd)
   awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
 end
 
+-- My mail updater widget
+mailWidget = widget({ type = "textbox" })
+mailWidget.text = "Init"
+mailWidgetTimer = timer({ timeout = 300 })
+mailWidgetTimer:add_signal("timeout", function()
+    mailWidget.text = awful.util.pread("./maic.py")
+end
+)
+mailWidget.start()
+
+
 run_once('xautolock -time 20 -locker "slock" -notify 30')
 run_once('nm-applet')
 run_once('pidgin')

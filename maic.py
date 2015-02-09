@@ -15,9 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with maic.py. If not, see <http://www.gnu.org/licenses/>.
 #
-#
 
-import time, sys, os, stat, socket, ConfigParser, imaplib, re
+import time, sys, os, stat, ConfigParser, imaplib, re
 
 class ImapChecker(object):
     
@@ -28,7 +27,7 @@ class ImapChecker(object):
     
     def __init__(self, host, ssl=False, port=None):
         
-        self.host = host.strip()
+        self.host = host
         self.ssl = ssl
         self.port = port
         
@@ -40,17 +39,9 @@ class ImapChecker(object):
 
     def login(self, user, passwd):
         if self.ssl is True:
-            try:
-                self.conn = imaplib.IMAP4_SSL(self.host, self.port)
-            except Exception as e:
-                sys.stderr.write("Connect failed : %s" % e)
-                sys.exit(1)
+            self.conn = imaplib.IMAP4_SSL(self.host, self.port)
         else:
-            try:
-                self.conn = imaplib.IMAP4(self.host, self.port)
-            except:
-                sys.stderr.write("Connect failed.")
-                sys.exit(1)
+            self.conn = imaplib.IMAP4(self.host, self.port)
     
         m = self.conn
 
