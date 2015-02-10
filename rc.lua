@@ -259,7 +259,7 @@ netwidget = widget({ type = "textbox" })
 vicious.register(netwidget, vicious.widgets.net,
 	function (widget, args)
 		for _,device in pairs(networks) do
-			if tonumber(args["{".. device .." carrier}"]) > 0 then
+			if tonumber(args["{".. device .." carrier}"]) >= 1 then
 				netwidget.found = true
 				dnicon.image = image(beautiful.widget_net)
 				upicon.image = image(beautiful.widget_netup)
@@ -667,17 +667,6 @@ function run_once(cmd)
   end
   awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
 end
-
--- My mail updater widget
-mailWidget = widget({ type = "textbox" })
-mailWidget.text = "Init"
-mailWidgetTimer = timer({ timeout = 300 })
-mailWidgetTimer:add_signal("timeout", function()
-    mailWidget.text = awful.util.pread("./maic.py")
-end
-)
-mailWidget.start()
-
 
 run_once('xautolock -time 20 -locker "slock" -notify 30')
 run_once('nm-applet')
