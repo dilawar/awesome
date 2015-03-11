@@ -1,5 +1,4 @@
 -- Standard awesome library
--- Merged dilawar's awesome file.
 require("awful")
 require("awful.autofocus")
 require("awful.rules")
@@ -7,7 +6,6 @@ require("awful.rules")
 require("beautiful")
 -- Notification library
 require("naughty")
-require("vicious")
 
 -- Load Debian menu entries
 require("debian.menu")
@@ -45,23 +43,6 @@ beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 terminal = "x-terminal-emulator"
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
-
-wallpaper_app = "feh" -- if you want to check for app before trying
-wallpaper_dir = os.getenv("HOME") .. "/Pictures/Wallpaper" -- wallpaper dir
-
--- taglist numerals
---- arabic, chinese, {east|persian}_arabic, roman, thai, random
-taglist_numbers = "chinese" -- we support arabic (1,2,3...),
-
-cpugraph_enable = true -- Show CPU graph
-cputext_format = " $1%" -- %1 average cpu, %[2..] every other thread individually
-
-membar_enable = true -- Show memory bar
-memtext_format = " $1%" -- %1 percentage, %2 used %3 total %4 free
-
-date_format = "%a %m/%d/%Y %l:%M%p" -- refer to http://en.wikipedia.org/wiki/Date_(Unix) specifiers
-
-networks = {'eth0'} -- add your devices network interface here netwidget, only shows first one thats up.
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -292,25 +273,7 @@ clientkeys = awful.util.table.join(
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
             c.maximized_vertical   = not c.maximized_vertical
-        end),
-
-        -- more programs
-        awful.key({"Control", "Shift" }, "t", function () awful.util.spawn("xterm") end),
-        -- tomboy
-        awful.key({"Mod1", }, "n" , function () awful.util.spawn("tomboy --new-note") end),
-        -- MPD and MPC config.
-        awful.key({"Mod1", "Control" }, "n", function () awful.util.spawn("mpc -h 127.0.0.1 next") end),
-        awful.key({"Mod1", "Control" }, "p", function () awful.util.spawn("mpc -h 127.0.0.1 prev") end),
-        awful.key({"Mod1", "Control" }, "t", function () awful.util.spawn("mpc -h 127.0.0.1 toggle") end),
-        awful.key({"Mod1", "Control" }, "m", function () awful.util.spawn("amixer -q sset Master 2dB-") end),
-        awful.key({"Mod1", "Control" }, "l", function () awful.util.spawn("amixer -q sset Master 2dB+") end),
-        awful.key({"Mod1", "Control" }, "d", function () awful.util.spawn_with_shell("~/Scripts/mpc_manage.sh -d") end),
-        awful.key({"Mod1", "Control" }, "a", function () awful.util.spawn_with_shell("~/Scripts/mpc_manage.sh -a") end),
-        -- rhythembox
-	    awful.key({"Mod4", "Control" }, "n", function () awful.util.spawn("rhythmbox-client --next") end),
-        awful.key({"Mod4", "Control" }, "p", function () awful.util.spawn("rhythmbox-client --previous") end),
-        awful.key({"Mod4", "Control" }, "t", function () awful.util.spawn("rhythmbox-client --play-pause") end),
-        awful.key({modkey }, "F12", function () awful.util.spawn("slock") end)
+        end)
 )
 
 -- Compute the maximum number of digit we need, limited to 9
