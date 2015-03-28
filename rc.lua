@@ -670,6 +670,7 @@ end
 
 run_once('xautolock -time 20 -locker "slock" -notify 30')
 run_once('nm-applet')
+run_once('xscreensaver -nosplash')
 run_once('pidgin')
 
 run_once('./ibus.sh')
