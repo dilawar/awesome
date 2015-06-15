@@ -466,8 +466,8 @@ globalkeys = awful.util.table.join(
                   awful.util.eval, nil,
                   awful.util.getdir("cache") .. "/history_eval")
               end),
-    awful.key({ }, "Print", function () awful.util.spawn("scrot -e 'mv $f /home/dilawar/screenshots/ 2>/dev/null'") end),
-    awful.key({modkey }, "Print", function () awful.util.spawn("/home/dilawar/Scripts/screenshot") end)
+    awful.key({ }, "Print", function () awful.util.spawn("scrot ~/Pictures/screenshots/%Y-%m-%d-%T-screenshot.png") end),
+    awful.key({modkey }, "Print", function () awful.util.spawn( home .. "/Scripts/screenshot") end)
 )
 
 clientkeys = awful.util.table.join(
@@ -671,7 +671,7 @@ end
 run_once('xautolock -time 20 -locker "slock" -notify 30')
 run_once('nm-applet')
 run_once('xscreensaver -nosplash')
-run_once('pidgin')
+--run_once('pidgin')
 
 run_once('./ibus.sh')
 mytimer:start()
