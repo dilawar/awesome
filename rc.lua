@@ -68,6 +68,7 @@ layouts = {
   awful.layout.suit.tile.top,
   awful.layout.suit.fair,
   awful.layout.suit.max,
+  awful.layout.suit.spiral,
   awful.layout.suit.magnifier,
   awful.layout.suit.floating
 }
