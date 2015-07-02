@@ -1,5 +1,5 @@
 terminal = 'urxvt -bg black -fg white' -- can be app in path, or full path e.g. /usr/bin/xterm
---terminal = "xfce4-terminal"
+terminal = "xfce4-terminal"
 editor = "vim"
 
 taglist_numbers = "devanagiri" -- we support arabic (1,2,3...),
@@ -13,4 +13,4 @@ memtext_format = " $1%" -- %1 percentage, %2 used %3 total %4 free
 
 date_format = "%a %m/%d/%Y %l:%M%p" -- refer to http://en.wikipedia.org/wiki/Date_(Unix) specifiers
 
-networks = {'eth1', 'wlan0'} -- Add your devices network interface here netwidget, only show one that works
+networks = {'eth0', 'wlan0'} -- Add your devices network interface here netwidget, only show one that works

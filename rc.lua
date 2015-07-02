@@ -569,6 +569,7 @@ awful.rules.rules = {
 
     { rule = { class = "ROX-Filer" },   properties = { floating = true } },
     { rule = { class = "gimp" },   properties = { floating = true } },
+    { rule = { class = "scribus" },   properties = { floating = true } },
 
     { rule = { class = "Conky" },
         properties = {
