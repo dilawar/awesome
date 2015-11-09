@@ -504,7 +504,8 @@ clientkeys = awful.util.table.join(
 	    awful.key({"Mod4", "Control" }, "n", function () awful.util.spawn("rhythmbox-client --next") end),
         awful.key({"Mod4", "Control" }, "p", function () awful.util.spawn("rhythmbox-client --previous") end),
         awful.key({"Mod4", "Control" }, "t", function () awful.util.spawn("rhythmbox-client --play-pause") end),
-        awful.key({modkey }, "F12", function () awful.util.spawn("slock") end)
+        awful.key({modkey }, "F12", function () awful.util.spawn("slock") end),
+        awful.key({}, "F10", function() raise_conky() end, function() lower_conky_delayed() end)
         )
 
 -- Compute the maximum number of digit we need, limited to 9
@@ -577,7 +578,7 @@ awful.rules.rules = {
         sticky = true,
         ontop = false,
         focusable = false,
-        size_hints = {"program_position", "program_size"}
+        --size_hints = {"program_position", "program_size"}
     } }
 }
 
@@ -674,6 +675,42 @@ run_once('xautolock -time 20 -locker "slock" -notify 30')
 run_once('nm-applet')
 run_once('xscreensaver -nosplash')
 --run_once('pidgin')
+
+-- Add conky
+do
+    local conky = nil
+
+    function get_conky(default)
+        if conky and conky.valid then
+            return conky
+        end
+
+        conky = awful.client.iterate(function(c) return c.class == "Conky" end)()
+        return conky or default
+    end
+
+    function raise_conky()
+        get_conky({}).ontop = true
+    end
+
+    function lower_conky()
+        get_conky({}).ontop = false
+    end
+
+    local t = gears.timer({ timeout = 0.01 })
+    t:connect_signal("timeout", function()
+        t:stop()
+        lower_conky()
+    end)
+    function lower_conky_delayed()
+        t:again()
+    end
+
+    function toggle_conky()
+        local conky = get_conky({})
+        conky.ontop = not conky.ontop
+    end
+end
 
 run_once('./ibus.sh')
 mytimer:start()
