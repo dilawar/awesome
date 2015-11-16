@@ -33,7 +33,7 @@ wallpaper_dir = os.getenv("HOME") .. "/Pictures/Wallpaper" -- wallpaper dir
 
 -- taglist numerals
 --- arabic, chinese, {east|persian}_arabic, roman, thai, random
-taglist_numbers = "chinese" -- we support arabic (1,2,3...),
+--taglist_numbers = "chinese" -- we support arabic (1,2,3...),
 
 cpugraph_enable = true -- Show CPU graph
 cputext_format = " $1%" -- %1 average cpu, %[2..] every other thread individually
@@ -89,22 +89,22 @@ taglist_numbers_sets = {
 }
 -- }}}
 
-tags = {}
-for s = 1, screen.count() do
-    -- Each screen has its own tag table.
-      --tags[s] = awful.tag({"一", "二", "三", "四", "五", "六", "七", "八", "九", "十"}, s, layouts[1])
-      --tags[s] = awful.tag(taglist_numbers_sets[taglist_numbers], s, layouts[1])
-	if taglist_numbers == 'random' then
-		math.randomseed(os.time())
-		local taglist = taglist_numbers_sets[taglist_numbers_langs[math.random(table.getn(taglist_numbers_langs))]]
-		tags[s] = awful.tag(taglist, s, layouts[1])
-	else
-		tags[s] = awful.tag(taglist_numbers_sets[taglist_numbers], s, layouts[1])
-	end
-    --tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
-end
--- }}}
-
+--tags = {}
+--for s = 1, screen.count() do
+--    -- Each screen has its own tag table.
+--      --tags[s] = awful.tag({"一", "二", "三", "四", "五", "六", "七", "八", "九", "十"}, s, layouts[1])
+--      --tags[s] = awful.tag(taglist_numbers_sets[taglist_numbers], s, layouts[1])
+--	if taglist_numbers == 'random' then
+--		math.randomseed(os.time())
+--		local taglist = taglist_numbers_sets[taglist_numbers_langs[math.random(table.getn(taglist_numbers_langs))]]
+--		tags[s] = awful.tag(taglist, s, layouts[1])
+--	else
+--		tags[s] = awful.tag(taglist_numbers_sets[taglist_numbers], s, layouts[1])
+--	end
+--    --tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
+--end
+---- }}}
+--
 
 -- {{{ Wibox
 --
@@ -256,19 +256,19 @@ upicon = widget({ type = "imagebox" })
 
 -- Initialize widget
 netwidget = widget({ type = "textbox" })
--- Register widget
-vicious.register(netwidget, vicious.widgets.net,
-	function (widget, args)
-		for _,device in pairs(networks) do
-			if tonumber(args["{".. device .." carrier}"]) >= 1 then
-				netwidget.found = true
-				dnicon.image = image(beautiful.widget_net)
-				upicon.image = image(beautiful.widget_netup)
-				return print_net(device, args["{"..device .." down_kb}"], args["{"..device.." up_kb}"])
-			end
-		end
-	end, 3)
--- }}}
+---- Register widget
+--vicious.register(netwidget, vicious.widgets.net,
+--	function (widget, args)
+--		for _,device in pairs(networks) do
+--			if tonumber(args["{".. device .." carrier}"]) >= 1 then
+--				netwidget.found = true
+--				dnicon.image = image(beautiful.widget_net)
+--				upicon.image = image(beautiful.widget_netup)
+--				return print_net(device, args["{"..device .." down_kb}"], args["{"..device.." up_kb}"])
+--			end
+--		end
+--	end, 3)
+---- }}}
 
 
 
