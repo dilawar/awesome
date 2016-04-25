@@ -513,23 +513,23 @@ clientkeys = awful.util.table.join(
         end,"Maximize client"),
 
         -- more programs 
-        awful.key({"Control", "Shift" }, "t", function () awful.util.spawn("xterm") end),
-        -- tomboy
-        awful.key({"Mod1", }, "n" , function () awful.util.spawn("tomboy --new-note") end),
-        -- MPD and MPC config.
-        awful.key({"Mod1", "Control" }, "n", function () awful.util.spawn("mpc -h 127.0.0.1 next") end),
-        awful.key({"Mod1", "Control" }, "p", function () awful.util.spawn("mpc -h 127.0.0.1 prev") end),
-        awful.key({"Mod1", "Control" }, "t", function () awful.util.spawn("mpc -h 127.0.0.1 toggle") end),
-        awful.key({"Mod1", "Control" }, "m", function () awful.util.spawn("amixer -q sset Master 2dB-") end),
-        awful.key({"Mod1", "Control" }, "l", function () awful.util.spawn("amixer -q sset Master 2dB+") end),
-        awful.key({"Mod1", "Control" }, "d", function () awful.util.spawn_with_shell("~/Scripts/mpc_manage.sh -d") end),
-        awful.key({"Mod1", "Control" }, "a", function () awful.util.spawn_with_shell("~/Scripts/mpc_manage.sh -a") end),
-        -- rhythembox
-           awful.key({"Mod4", "Control" }, "n", function () awful.util.spawn("rhythmbox-client --next") end),
-        awful.key({"Mod4", "Control" }, "p", function () awful.util.spawn("rhythmbox-client --previous") end),
-        awful.key({"Mod4", "Control" }, "t", function () awful.util.spawn("rhythmbox-client --play-pause") end),
-        awful.key({modkey }, "F12", function () awful.util.spawn("slock") end),
-        awful.key({}, "F10", function() raise_conky() end, function() lower_conky_delayed() end)
+    awful.key({"Control", "Shift" }, "t", function () awful.util.spawn("xterm") end),
+    -- tomboy
+    awful.key({"Mod1", }, "n" , function () awful.util.spawn("tomboy --new-note") end),
+    -- MPD and MPC config.
+    awful.key({"Mod1", "Control" }, "n", function () awful.util.spawn("mpc -h 127.0.0.1 next") end),
+    awful.key({"Mod1", "Control" }, "p", function () awful.util.spawn("mpc -h 127.0.0.1 prev") end),
+    awful.key({"Mod1", "Control" }, "t", function () awful.util.spawn("mpc -h 127.0.0.1 toggle") end),
+    awful.key({"Mod1", "Control" }, "m", function () awful.util.spawn("amixer sset Master 5%-") end),
+    awful.key({"Mod1", "Control" }, "l", function () awful.util.spawn("amixer sset Master 5%+") end),
+    awful.key({"Mod1", "Control" }, "d", function () awful.util.spawn_with_shell("~/Scripts/mpc_manage.sh -d") end),
+    awful.key({"Mod1", "Control" }, "a", function () awful.util.spawn_with_shell("~/Scripts/mpc_manage.sh -a") end),
+    -- rhythembox
+    awful.key({ modkey, "Control" }, "n", function () awful.util.spawn("rhythmbox-client --next") end),
+    awful.key({ modkey, "Control" }, "p", function () awful.util.spawn("rhythmbox-client --previous") end),
+    awful.key({ modkey, "Control" }, "t", function () awful.util.spawn("rhythmbox-client --play-pause") end),
+    awful.key({ modkey }, "F12", function () awful.util.spawn("slock") end),
+    awful.key({}, "F10", function() raise_conky() end, function() lower_conky_delayed() end)
 
 )
 
@@ -686,4 +686,9 @@ end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+
 -- }}}
+
+
+-- Locker 
+awful.util.spawn_with_shell( '~/.config/awesome/locker.sh' )
