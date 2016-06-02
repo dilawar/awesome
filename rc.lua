@@ -528,7 +528,7 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "n", function () awful.util.spawn("rhythmbox-client --next") end),
     awful.key({ modkey, "Control" }, "p", function () awful.util.spawn("rhythmbox-client --previous") end),
     awful.key({ modkey, "Control" }, "t", function () awful.util.spawn("rhythmbox-client --play-pause") end),
-    awful.key({ modkey }, "F12", function () awful.util.spawn("slock") end),
+    awful.key({ modkey }, "F12", function () awful.util.spawn("xscreensaver-command -lock") end),
     awful.key({}, "F10", function() raise_conky() end, function() lower_conky_delayed() end)
 
 )
@@ -688,7 +688,3 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
 -- }}}
-
-
--- Locker 
-awful.util.spawn_with_shell( '~/.config/awesome/locker.sh' )
