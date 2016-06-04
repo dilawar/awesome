@@ -1,24 +1,3 @@
---  rc.lua
---  custom initialization for awesome windowmanager 3.5.x
---
- -- Copyright (C) 2012, 2013 by Togan Muftuoglu <toganm@opensuse.org>
- -- Copyright (C) 2015 by Sorokin Alexei <sor.alexei@meowr.ru>
- -- This program is free software; you can redistribute it and/or
- -- modify it under the terms of the GNU General Public License as
- -- published by the Free Software Foundation; either version 2, or (at
- -- your option) any later version.
-
- -- This program is distributed in the hope that it will be useful, but
- -- WITHOUT ANY WARRANTY; without even the implied warranty of
- -- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- -- General Public License for more details.
-
- -- You should have received a copy of the GNU General Public License
- -- along with GNU Emacs; see the file COPYING.  If not, write to the
- -- Free Software Foundation, Inc.,  51 Franklin Street, Fifth Floor,
- -- Boston, MA 02110-1301 USA
-
-
 -- Standard awesome library
 local gears = require("gears")
 local awful = require("awful")
@@ -32,10 +11,8 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 
--- Freedesktop integration
--- Extra widgets
-local vicious = require("vicious")
--- to create shortcuts help screen
+-- Load Debian menu entries
+require("debian.menu")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -64,26 +41,12 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
--- Use personal theme if existing else goto default
-do
-    local user_theme, ut
-    user_theme = awful.util.getdir("config") .. "/themes/theme.lua"
-    ut = io.open(user_theme)
-    if ut then
-        io.close(ut)
-        beautiful.init(user_theme)
-    else
-        print("Personal theme doesn't exist, falling back to openSUSE")
-        beautiful.init("/usr/share/awesome/themes/openSUSE/theme.lua")
-    end
-end
+beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "xfce4-terminal"
-editor = os.getenv("EDITOR") or os.getenv("VISUAL") or "vi"
+terminal = "x-terminal-emulator"
+editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
-
-menubar.utils.terminal = terminal
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -129,26 +92,18 @@ end
 
 -- {{{ Menu
 -- Create a laucher widget and a main menu
-  mysystem_menu = {
-      { 'Lock Screen',     'light-locker-command --lock', menubar.utils.lookup_icon('system-lock-screen') },
-      { 'Logout',           awesome.quit,                 menubar.utils.lookup_icon('system-log-out')     },
-      { 'Reboot System',   'systemctl reboot',            menubar.utils.lookup_icon('reboot-notifier')    },
-      { 'Shutdown System', 'systemctl poweroff',          menubar.utils.lookup_icon('system-shutdown')    }
-   }
+myawesomemenu = {
+   { "manual", terminal .. " -e man awesome" },
+   { "edit config", editor_cmd .. " " .. awesome.conffile },
+   { "restart", awesome.restart },
+   { "quit", awesome.quit }
+}
 
-  myawesome_menu = {
-     { 'Restart Awesome', awesome.restart, menubar.utils.lookup_icon('gtk-refresh') },
-     { "Edit config", editor_cmd .. " " .. awful.util.getdir("config") .. "/rc.lua", menubar.utils.lookup_icon('package_settings') },
-     { "manual", terminal .. " -e man awesome" }
-  }
-
-  top_menu = {
-     { 'Awesome',      myawesome_menu,         beautiful.awesome_icon                  },
-     { 'System',       mysystem_menu,          menubar.utils.lookup_icon('system')     },
-     { 'Terminal',     menubar.utils.terminal, menubar.utils.lookup_icon('terminal')   }
-  }
-
-mymainmenu = awful.menu.new({ items = top_menu, width = 150 })
+mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
+                                    { "Debian", debian.menu.Debian_menu.Debian },
+                                    { "open terminal", terminal }
+                                  }
+                        })
 
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
@@ -158,78 +113,8 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- }}}
 
 -- {{{ Wibox
--- We need spacer and separator between the widgets
-spacer = wibox.widget.textbox()
-separator = wibox.widget.textbox()
-spacer:set_text(" ")
-separator:set_text("|")
-
 -- Create a textclock widget
 mytextclock = awful.widget.textclock()
-
-mycpuwidget = wibox.widget.textbox()
-vicious.register(mycpuwidget, vicious.widgets.cpu, "$1%")
-
-mybattery = wibox.widget.textbox()
-vicious.register(mybattery, function(format, warg)
-    local args = vicious.widgets.bat(format, warg)
-    if args[2] < 50 then
-        args['{color}'] = 'red'
-    else
-        args['{color}'] = 'green'
-    end
-    return args
-end, '<span foreground="${color}">bat: $2% $3h</span>', 10, 'BAT0')
-
--- Initialise widget
-mynetwidget = wibox.widget.textbox()
--- Register widget
-vicious.register(mynetwidget, vicious.widgets.net, "${wlp3s0 down_kb} / ${wlp3s0 up_kb}", 1)
-
--- wifi
--- provides wireless information for a requested interface
--- takes the network interface as an argument, i.e. "wlp3s0"
--- returns a table with string keys: {ssid}, {mode}, {chan}, {rate}, {link}, {linp} and {sign}
--- wifi = widget({ type = "textbox" })
--- vicious.register(wifi, vicious.widgets.wifi, "${link}", 121, "wlp3s0")
-
-
-
--- Weather widget
-myweatherwidget = wibox.widget.textbox()
-weather_t = awful.tooltip({ objects = { myweatherwidget },})
-vicious.register(myweatherwidget, vicious.widgets.weather,
-                function (widget, args)
-                    weather_t:set_text("City: " .. args["{city}"] .."\nWind: " .. args["{windkmh}"] .. "km/h " .. args["{wind}"] .. "\nSky: " .. args["{sky}"] .. "\nHumidity: " .. args["{humid}"] .. "%")
-                    return args["{tempc}"] .. "C"
-                end, 1800, "EDDN")
-                --'1800': check every 30 minutes.
-                --'EDDN': Nuernberg ICAO code.
-
-
--- Keyboard map indicator and changer
--- https://awesome.naquadah.org/wiki/Change_keyboard_maps
--- default keyboard is us, second is german adapt to your needs
---
-
-kbdcfg = {}
-kbdcfg.cmd = "setxkbmap"
-kbdcfg.layout = { { "us", "" } }
-kbdcfg.current = 1  -- us is our default layout
-kbdcfg.widget = wibox.widget.textbox()
-kbdcfg.widget.set_align = "right"
-kbdcfg.widget:set_text(" " .. kbdcfg.layout[kbdcfg.current][1] .. " ")
-kbdcfg.switch = function ()
-    kbdcfg.current = kbdcfg.current % #(kbdcfg.layout) + 1
-    local t = kbdcfg.layout[kbdcfg.current]
-    kbdcfg.widget.text = " " .. t[1] .. " "
-    os.execute( kbdcfg.cmd .. " " .. t[1] .. " " .. t[2] )
-end
-
--- Mouse bindings
-kbdcfg.widget:buttons(awful.util.table.join(
-    awful.button({ }, 1, function () kbdcfg.switch() end)
-))
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -311,38 +196,6 @@ for s = 1, screen.count() do
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
     right_layout:add(mytextclock)
-    right_layout:add(separator)
-    right_layout:add(spacer)
-
-    right_layout:add(kbdcfg.widget)
-    right_layout:add(spacer)
-    right_layout:add(separator)
-    right_layout:add(spacer)
-
-    right_layout:add(mycpuwidget)
-    right_layout:add(spacer)
-    right_layout:add(separator)
-    right_layout:add(spacer)
-
-    right_layout:add(mybattery)
-    right_layout:add(spacer)
-    right_layout:add(separator)
-    right_layout:add(spacer)
-
-    right_layout:add(mynetwidget)
-    right_layout:add(spacer)
-    right_layout:add(separator)
-    right_layout:add(spacer)
-
-    -- right_layout:add(wifi)
-    -- right_layout:add(spacer)
-    -- right_layout:add(separator)
-    -- right_layout:add(spacer)
-
-    right_layout:add(myweatherwidget)
-    right_layout:add(spacer)
-    right_layout:add(separator)
-    right_layout:add(spacer)
     right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
@@ -355,13 +208,6 @@ for s = 1, screen.count() do
 end
 -- }}}
 
--- but leaving them here also provides a mean to change the colours here ;)
-
-   beautiful.fg_widget_value="green"
-   beautiful.fg_widget_clock="gold"
-   beautiful.fg_widget_value_important="red"
-
-
 -- {{{ Mouse bindings
 root.buttons(awful.util.table.join(
     awful.button({ }, 3, function () mymainmenu:toggle() end),
@@ -372,9 +218,9 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "Left",   awful.tag.viewprev,"Previous Tag" ),
-    awful.key({ modkey,           }, "Right",  awful.tag.viewnext,"Next tag" ),
-    awful.key({ modkey,           }, "Escape", awful.tag.history.restore,"Clear Choice"),
+    awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
+    awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
+    awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 
     awful.key({ modkey,           }, "j",
         function ()
@@ -385,80 +231,41 @@ globalkeys = awful.util.table.join(
         function ()
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
-        end,"Raise focus"),
-    awful.key({ modkey,           }, "w", function () mymainmenu:show() end,"Show menu"),
+        end),
+    awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
 
     -- Layout manipulation
-    awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,"Swap with next window"),
-    awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end,"Swap with previous window "),
-    awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end,"Relative focus increase" ),
-    awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end,"Relative focus decrease"),
-    awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,"Jump to window "),
+    awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
+    awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
+    awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end),
+    awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end),
+    awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
     awful.key({ modkey,           }, "Tab",
         function ()
             awful.client.focus.history.previous()
             if client.focus then
                 client.focus:raise()
             end
-        end,"Cycle windows or windows style"),
+        end),
 
     -- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end,"Open terminal"),
-    awful.key({ modkey, "Control" }, "r", awesome.restart,"Restart awesome"),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit,"Quit awesome"),
+    awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
+    awful.key({ modkey, "Control" }, "r", awesome.restart),
+    awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
-    awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end,"Increase window size"),
-    awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end,"Decrease window size"),
-    awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1)      end,"Increase master"),
-    awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end,"Decrease master"),
-    awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end,"Increase column"),
-    awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end,"Decrease column"),
-    awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end,"Cycle layout style forward"),
-    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end,"Cycle layout style reverse"),
+    awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
+    awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
+    awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1)      end),
+    awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
+    awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)         end),
+    awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)         end),
+    awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
+    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
 
-    awful.key({ modkey, "Control" }, "n", awful.client.restore,"Client restore"),
+    awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
     -- Prompt
-    awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end,"Run command"),
-    -- this function below will enable ssh login as long as the remote host is defined in $HOME/.ssh/config
-    -- else by give the remote host name at the prompt which will also work
-    awful.key({ modkey,           }, "s",
-              function ()
-                  awful.prompt.run({ prompt = "ssh: " },
-                  mypromptbox[mouse.screen].widget,
-                  function(h) awful.util.spawn(terminal .. " -e slogin " .. h) end,
-                  function(cmd, cur_pos, ncomp)
-                      -- get hosts and hostnames
-                      local hosts = {}
-                      f = io.popen("sed 's/#.*//;/[ \\t]*Host\\(Name\\)\\?[ \\t]\\+/!d;s///;/[*?]/d' " .. os.getenv("HOME") .. "/.ssh/config | sort")
-                      for host in f:lines() do
-                          table.insert(hosts, host)
-                      end
-                      f:close()
-                      -- abort completion under certain circumstances
-                      if cur_pos ~= #cmd + 1 and cmd:sub(cur_pos, cur_pos) ~= " " then
-                          return cmd, cur_pos
-                      end
-                      -- match
-                      local matches = {}
-                      table.foreach(hosts, function(x)
-                          if hosts[x]:find("^" .. cmd:sub(1, cur_pos):gsub('[-]', '[-]')) then
-                              table.insert(matches, hosts[x])
-                          end
-                      end)
-                      -- if there are no matches
-                      if #matches == 0 then
-                          return cmd, cur_pos
-                      end
-                      -- cycle
-                      while ncomp > #matches do
-                          ncomp = ncomp - #matches
-                      end
-                      -- return match and position
-                      return matches[ncomp], #matches[ncomp] + 1
-                  end,
-                  awful.util.getdir("cache") .. "/ssh_history")
-              end,"SSH login"),
+    awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
 
     awful.key({ modkey }, "x",
               function ()
@@ -466,49 +273,29 @@ globalkeys = awful.util.table.join(
                   mypromptbox[mouse.screen].widget,
                   awful.util.eval, nil,
                   awful.util.getdir("cache") .. "/history_eval")
-              end,"Run lua command"),
+              end),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end)
 )
 
 clientkeys = awful.util.table.join(
-   awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end,"Toggle fullscreen"),
-   awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,"Kill window"),
-    awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle,"Toggle floating"    ),
-    awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end,"Swap to master"),
-    awful.key({ modkey,           }, "o",      awful.client.movetoscreen,"Move to screen" ),
+    awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
+    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
+    awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
+    awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
+    awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
     awful.key({ modkey,           }, "n",
         function (c)
             -- The client currently has the input focus, so it cannot be
             -- minimized, since minimized clients can't have the focus.
             c.minimized = true
-        end,"Minimize client"),
+        end),
     awful.key({ modkey,           }, "m",
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
             c.maximized_vertical   = not c.maximized_vertical
-        end,"Maximize client"),
-
-        -- more programs 
-    awful.key({"Control", "Shift" }, "t", function () awful.util.spawn("xterm") end),
-    -- tomboy
-    awful.key({"Mod1", }, "n" , function () awful.util.spawn("tomboy --new-note") end),
-    -- MPD and MPC config.
-    awful.key({"Mod1", "Control" }, "n", function () awful.util.spawn("mpc -h 127.0.0.1 next") end),
-    awful.key({"Mod1", "Control" }, "p", function () awful.util.spawn("mpc -h 127.0.0.1 prev") end),
-    awful.key({"Mod1", "Control" }, "t", function () awful.util.spawn("mpc -h 127.0.0.1 toggle") end),
-    awful.key({"Mod1", "Control" }, "m", function () awful.util.spawn("amixer sset Master 5%-") end),
-    awful.key({"Mod1", "Control" }, "l", function () awful.util.spawn("amixer sset Master 5%+") end),
-    awful.key({"Mod1", "Control" }, "d", function () awful.util.spawn_with_shell("~/Scripts/mpc_manage.sh -d") end),
-    awful.key({"Mod1", "Control" }, "a", function () awful.util.spawn_with_shell("~/Scripts/mpc_manage.sh -a") end),
-    -- rhythembox
-    awful.key({ modkey, "Control" }, "n", function () awful.util.spawn("rhythmbox-client --next") end),
-    awful.key({ modkey, "Control" }, "p", function () awful.util.spawn("rhythmbox-client --previous") end),
-    awful.key({ modkey, "Control" }, "t", function () awful.util.spawn("rhythmbox-client --play-pause") end),
-    awful.key({ modkey }, "F12", function () awful.util.spawn("xscreensaver-command -lock") end),
-    awful.key({}, "F10", function() raise_conky() end, function() lower_conky_delayed() end)
-
+        end)
 )
 
 -- Bind all key numbers to tags.
@@ -576,11 +363,6 @@ awful.rules.rules = {
                      raise = true,
                      keys = clientkeys,
                      buttons = clientbuttons } },
-    -- to fix youtube fullscreen problems if still seeing bottom bar
-    -- for chromium change "plugin-container" to "exe"
-
-    { rule = { instance = "plugin-container" },
-      properties = { floating = true } },
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
     { rule = { class = "pinentry" },
@@ -614,6 +396,9 @@ client.connect_signal("manage", function (c, startup)
             awful.placement.no_overlap(c)
             awful.placement.no_offscreen(c)
         end
+    elseif not c.size_hints.user_position and not c.size_hints.program_position then
+        -- Prevent clients from being unreachable after screen count change
+        awful.placement.no_offscreen(c)
     end
 
     local titlebars_enabled = false
@@ -662,4 +447,6 @@ client.connect_signal("manage", function (c, startup)
     end
 end)
 
+client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
+client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
