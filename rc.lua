@@ -33,14 +33,9 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 
 -- Freedesktop integration
-require("freedesktop.menu")
-require("freedesktop.desktop")
--- calendar functions
-local calendar2 = require("calendar2")
 -- Extra widgets
 local vicious = require("vicious")
 -- to create shortcuts help screen
-local keydoc = require("keydoc")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -89,7 +84,6 @@ editor = os.getenv("EDITOR") or os.getenv("VISUAL") or "vi"
 editor_cmd = terminal .. " -e " .. editor
 
 menubar.utils.terminal = terminal
-theme.icon_theme = 'Adwaita'
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -149,7 +143,6 @@ end
   }
 
   top_menu = {
-     { 'Applications', freedesktop.menu.new(), menubar.utils.lookup_icon('start-here') },
      { 'Awesome',      myawesome_menu,         beautiful.awesome_icon                  },
      { 'System',       mysystem_menu,          menubar.utils.lookup_icon('system')     },
      { 'Terminal',     menubar.utils.terminal, menubar.utils.lookup_icon('terminal')   }
@@ -159,12 +152,6 @@ mymainmenu = awful.menu.new({ items = top_menu, width = 150 })
 
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
-
--- Desktop icons
-for s = 1, screen.count() do
-   freedesktop.desktop.add_applications_icons({screen = s, showlabels = true})
-   freedesktop.desktop.add_dirs_and_files_icons({screen = s, showlabels = true})
-end
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
@@ -179,9 +166,6 @@ separator:set_text("|")
 
 -- Create a textclock widget
 mytextclock = awful.widget.textclock()
-
-calendar2.addCalendarToWidget(mytextclock, "<span color='green'>%s</span>")
-
 
 mycpuwidget = wibox.widget.textbox()
 vicious.register(mycpuwidget, vicious.widgets.cpu, "$1%")
@@ -371,7 +355,6 @@ for s = 1, screen.count() do
 end
 -- }}}
 
--- these are needed by the keydoc a better solution would be to place them in theme.lua
 -- but leaving them here also provides a mean to change the colours here ;)
 
    beautiful.fg_widget_value="green"
@@ -389,11 +372,9 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-   keydoc.group("Global Keys"),
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev,"Previous Tag" ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext,"Next tag" ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore,"Clear Choice"),
-    awful.key({modkey,}, "F1",keydoc.display,"Display Keymap Menu"),
 
     awful.key({ modkey,           }, "j",
         function ()
@@ -408,7 +389,6 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end,"Show menu"),
 
     -- Layout manipulation
-    keydoc.group("Layout manipulation"),
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,"Swap with next window"),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end,"Swap with previous window "),
     awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end,"Relative focus increase" ),
@@ -423,7 +403,6 @@ globalkeys = awful.util.table.join(
         end,"Cycle windows or windows style"),
 
     -- Standard program
-    keydoc.group("Standard Programs"),
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end,"Open terminal"),
     awful.key({ modkey, "Control" }, "r", awesome.restart,"Restart awesome"),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit,"Quit awesome"),
@@ -493,7 +472,6 @@ globalkeys = awful.util.table.join(
 )
 
 clientkeys = awful.util.table.join(
-   keydoc.group("Window management"),
    awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end,"Toggle fullscreen"),
    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,"Kill window"),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle,"Toggle floating"    ),
@@ -683,8 +661,5 @@ client.connect_signal("manage", function (c, startup)
         awful.titlebar(c):set_widget(layout)
     end
 end)
-
-client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
-client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
 -- }}}
