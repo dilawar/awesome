@@ -184,14 +184,14 @@ end, '<span foreground="${color}">bat: $2% $3h</span>', 10, 'BAT0')
 -- Initialise widget
 mynetwidget = wibox.widget.textbox()
 -- Register widget
-vicious.register(mynetwidget, vicious.widgets.net, "${eth0 down_kb} / ${eth0 up_kb}", 1)
+vicious.register(mynetwidget, vicious.widgets.net, "${wlp3s0 down_kb} / ${wlp3s0 up_kb}", 1)
 
 -- wifi
 -- provides wireless information for a requested interface
--- takes the network interface as an argument, i.e. "wlan0"
+-- takes the network interface as an argument, i.e. "wlp3s0"
 -- returns a table with string keys: {ssid}, {mode}, {chan}, {rate}, {link}, {linp} and {sign}
 -- wifi = widget({ type = "textbox" })
--- vicious.register(wifi, vicious.widgets.wifi, "${link}", 121, "wlan0")
+-- vicious.register(wifi, vicious.widgets.wifi, "${link}", 121, "wlp3s0")
 
 
 
