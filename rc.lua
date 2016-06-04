@@ -83,8 +83,11 @@ local layouts = {
 tags = {
     names = { " MAIN ", " TEMP ", " OTHER", " UNCOOL ", " WEB ", " MAIL "
     , " DWNLDS ", " SERVER ", " RUN " },
-    layout = { layouts[1], layouts[3], layouts[2], layouts[4] 
-}
+    layout = { 
+        layouts[1], layouts[3], layouts[2], layouts[4] 
+        , layouts[1], layouts[3], layouts[2], layouts[4] 
+        , layouts[1]
+    }
 }
 for s = 1, screen.count() do
     tags[s] = awful.tag(tags.names, s, tags.layout)
