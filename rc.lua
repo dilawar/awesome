@@ -82,10 +82,11 @@ local layouts = {
 -- {{{ Tags
 tags = {
     names = { " MAIN ", " TEMP ", " OTHER", " UNCOOL ", " WEB ", " MAIL "
-    , " DWNLDS ", " SERVER ", " RUN " },
+                , " DWNLDS ", " SERVER ", " RUN " 
+            },
     layout = { 
-        layouts[1], layouts[3], layouts[2], layouts[4] 
-        , layouts[1], layouts[3], layouts[2], layouts[4] 
+        layouts[2], layouts[3], layouts[2], layouts[4] 
+        , layouts[2], layouts[3], layouts[2], layouts[4] 
         , layouts[1]
     }
 }
