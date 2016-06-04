@@ -8,9 +8,9 @@
 
 theme                               = {}
 
-theme.icon_dir                      = os.getenv("HOME") .. "/.config/awesome/themes/holo/icons"
+theme.icon_dir                      = os.getenv("HOME") .. "/.config/awesome/themes/adventure-time/icons"
 
-theme.wallpaper                     = os.getenv("HOME") .. "/.config/awesome/themes/holo/wall.png"
+theme.wallpaper                     = os.getenv("HOME") .. "/.config/awesome/themes/adventure-time/wall.png"
 
 theme.topbar_path                   = "png:" .. theme.icon_dir .. "/topbar/"
 
