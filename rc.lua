@@ -117,8 +117,7 @@ space3 = markup.font("Tamsyn 3", " ")
 space2 = markup.font("Tamsyn 2", " ")
 
 -- Clock
-mytextclock = awful.widget.textclock(markup("#FFFFFF", space3 .. "%H:%M" .. space2))
-clock_icon = wibox.widget.imagebox()
+mytextclock = awful.widget.textclock(markup("#FFFFFF", space3 .. "%H:%M" .. space2)) clock_icon = wibox.widget.imagebox()
 clock_icon:set_image(beautiful.clock)
 clockwidget = wibox.widget.background()
 clockwidget:set_widget(mytextclock)
@@ -715,15 +714,6 @@ awful.rules.rules = {
     size_hints_honor = false } },
     { rule = { class = "URxvt" },
     properties = { opacity = 0.99 } },
-
-    { rule = { class = "Firefox" },
-    properties = { tag = tags[1][1] } },
-
-    { rule = { instance = "plugin-container" },
-    properties = { tag = tags[1][1] } },
-
-    { rule = { class = "Gimp" },
-    properties = { tag = tags[1][4] } },
 
     { rule = { class = "Gimp", role = "gimp-image-window" },
     properties = { maximized_horizontal = true,
