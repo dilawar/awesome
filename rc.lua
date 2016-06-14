@@ -50,6 +50,8 @@ end
 
 run_once("urxvtd")
 run_once("unclutter -root")
+run_once("xscreensaver -nosplash")
+
 -- }}}
 
 -- {{{ Variable definitions
@@ -809,4 +811,7 @@ for s = 1, screen.count() do screen[s]:connect_signal("arrange", function ()
     end
 end)
 end
+
+-- 
+
 -- }}}
