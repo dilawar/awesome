@@ -83,7 +83,7 @@ local layouts = {
 
 -- {{{ Tags
 tags = {
-    names = { " MAIN ", " TEMP ", " OTHER", " UNCOOL ", " WEB ", " MAIL "
+    names = { " MAIN ", " DOC ", " OTHER", " UNCOOL ", " WEB ", " MAIL "
                 , " DWNLDS ", " SERVER ", " RUN " 
             },
     layout = { 
@@ -119,7 +119,8 @@ space3 = markup.font("Tamsyn 3", " ")
 space2 = markup.font("Tamsyn 2", " ")
 
 -- Clock
-mytextclock = awful.widget.textclock(markup("#FFFFFF", space3 .. "%H:%M" .. space2)) clock_icon = wibox.widget.imagebox()
+mytextclock = awful.widget.textclock(markup("#FFFFFF", space3 .. "%H:%M" .. space2)) 
+clock_icon = wibox.widget.imagebox()
 clock_icon:set_image(beautiful.clock)
 clockwidget = wibox.widget.background()
 clockwidget:set_widget(mytextclock)
@@ -133,6 +134,7 @@ calendarwidget = wibox.widget.background()
 calendarwidget:set_widget(mytextcalendar)
 calendarwidget:set_bgimage(beautiful.widget_bg)
 lain.widgets.calendar:attach(calendarwidget, { fg = "#FFFFFF", position = "bottom_right" })
+
 
 --[[ Mail IMAP check
 -- commented because it needs to be set before use
