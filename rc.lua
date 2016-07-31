@@ -62,7 +62,7 @@ beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/adventure-time/them
 -- common
 modkey     = "Mod4"
 altkey     = "Mod1"
-terminal   = "urxvtc" or "xterm"
+terminal   = "xfce4-terminal" or "urxvtc" or "xterm"
 editor     = os.getenv("EDITOR") or "nano" or "vi"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -710,18 +710,25 @@ root.keys(globalkeys)
 awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
-    properties = { border_width = beautiful.border_width,
-    border_color = beautiful.border_normal,
-    focus = awful.client.focus.filter,
-    keys = clientkeys,
-    buttons = clientbuttons,
-    size_hints_honor = false } },
-    { rule = { class = "URxvt" },
-    properties = { opacity = 0.99 } },
-
-    { rule = { class = "Gimp", role = "gimp-image-window" },
-    properties = { maximized_horizontal = true,
-    maximized_vertical = true } },
+        properties = { border_width = beautiful.border_width,
+        border_color = beautiful.border_normal,
+        focus = awful.client.focus.filter,
+        keys = clientkeys,
+        buttons = clientbuttons,
+        size_hints_honor = false } 
+},
+{ rule = { 
+    class = "URxvt" },
+    properties = { opacity = 0.9 } 
+},
+{ rule = { 
+    class = "gimp", role = "gimp-image-window" },
+    properties = { floating = true },
+},
+{ rule = {
+    class = "scilab",
+    properties = { 'floating' = true },
+}
 }
 -- }}}
 
