@@ -710,25 +710,27 @@ root.keys(globalkeys)
 awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
-        properties = { border_width = beautiful.border_width,
-        border_color = beautiful.border_normal,
-        focus = awful.client.focus.filter,
-        keys = clientkeys,
-        buttons = clientbuttons,
-        size_hints_honor = false } 
-},
-{ rule = { 
-    class = "URxvt" },
-    properties = { opacity = 0.9 } 
-},
-{ rule = { 
-    class = "gimp", role = "gimp-image-window" },
-    properties = { floating = true },
-},
-{ rule = {
-    class = "scilab",
-    properties = { 'floating' = true },
-}
+        properties = { 
+            border_width = beautiful.border_width,
+            border_color = beautiful.border_normal,
+            focus = awful.client.focus.filter,
+            keys = clientkeys,
+            buttons = clientbuttons,
+            size_hints_honor = false 
+        } 
+    },
+    { rule = { 
+        class = "URxvt" },
+        properties = { opacity = 0.9 } 
+    },
+    { rule = { 
+        class = "gimp", role = "gimp-image-window" },
+        properties = { floating = true },
+    },
+    { rule = {
+        class = "scilab",
+        properties = { floating = true } }
+    },
 }
 -- }}}
 
