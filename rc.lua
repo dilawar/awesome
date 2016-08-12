@@ -565,8 +565,8 @@ awful.key({ modkey, "Shift"   }, "q",      awesome.quit),
 awful.key({ modkey,	          }, "z",      function () drop(terminal) end),
 
 -- Widgets popups
-awful.key({ altkey,           }, "c",      function () lain.widgets.calendar:show(7) end),
-awful.key({ altkey,           }, "w",      function () myweather.show(7) end),
+--awful.key({ altkey,           }, "c",      function () lain.widgets.calendar:show(7) end),
+--awful.key({ altkey,           }, "w",      function () myweather.show(7) end),
 
 -- ALSA volume control
 awful.key({ altkey }, "Up",
