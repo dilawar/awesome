@@ -6,15 +6,18 @@ github.com/copycat-killer
 --]]
 
 -- {{{ Required libraries
-local gears     = require("gears")
-local awful     = require("awful")
-awful.rules     = require("awful.rules")
 require("awful.autofocus")
-local wibox     = require("wibox")
-local beautiful = require("beautiful")
-local naughty   = require("naughty")
-local drop      = require("scratchdrop")
-local lain      = require("lain")
+
+local gears          = require("gears")
+local awful          = require("awful")
+awful.rules          = require("awful.rules")
+
+local wibox          = require("wibox")
+local beautiful      = require("beautiful")
+local naughty        = require("naughty")
+local drop           = require("scratchdrop")
+local lain           = require("lain")
+local volume_control = require( "volume-control" )
 -- }}}
 
 -- {{{ Error handling
@@ -125,6 +128,7 @@ clock_icon:set_image(beautiful.clock)
 clockwidget = wibox.widget.background()
 clockwidget:set_widget(mytextclock)
 clockwidget:set_bgimage(beautiful.widget_bg)
+
 
 -- Calendar
 mytextcalendar = awful.widget.textclock(markup("#FFFFFF", space3 .. "%d %b %A<span font='Tamsyn 5'> </span>"))
@@ -419,6 +423,10 @@ for s = 1, screen.count() do
     layout:set_right(right_layout)
 
     mywibox[s]:set_widget(layout)
+
+    -- Volume control
+    volumecfg       = volume_control( {} );
+    right_layout:add( volumecfg.widget )
 
     -- Create the bottom wibox
     mybottomwibox[s] = awful.wibox({ position = "bottom", screen = s, border_width = 0, height = 32 })
